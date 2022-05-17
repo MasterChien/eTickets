@@ -58,23 +58,22 @@ namespace eTickets
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
+            //app.UseSession();
 
             //Authentication & Authorization
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Movies}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
             //Seed database
-            //AppDbInitializer.Seed(app);
+            AppDbInitializer.Seed(app);
             //AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
