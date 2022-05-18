@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace eTickets.Data.Base
 {
@@ -48,11 +52,10 @@ namespace eTickets.Data.Base
 
         public async Task UpdateAsync(int id, T entity)
         {
-            EntityEntry entityEntry = _context.Entry<T>(entity);
+            EntityEntry entityEntry =  _context.Entry<T>(entity);
             entityEntry.State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
         }
     }
 }
-
