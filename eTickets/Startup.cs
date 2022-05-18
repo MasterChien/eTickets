@@ -1,5 +1,9 @@
-﻿using eTickets.Data;
+using eTickets.Data;
+using eTickets.Data.Cart;
 using eTickets.Data.Services;
+using eTickets.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets
@@ -27,17 +31,17 @@ namespace eTickets
             services.AddScoped<IMoviesService, MoviesService>();
             services.AddScoped<IOrdersService, OrdersService>();
 
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
             //Authentication and authorization
-            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-            //services.AddMemoryCache();
-            //services.AddSession();
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //});
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddAuthentication(options => 
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
 
             services.AddControllersWithViews();
         }
@@ -59,24 +63,24 @@ namespace eTickets
             app.UseStaticFiles();
 
             app.UseRouting();
-            //app.UseSession();
+            app.UseSession();
 
             //Authentication & Authorization
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Movies}/{action=Index}/{id?}");
             });
 
             //Seed database
             AppDbInitializer.Seed(app);
-            //AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
 }
-
