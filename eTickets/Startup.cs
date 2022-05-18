@@ -1,4 +1,5 @@
 ﻿using eTickets.Data;
+using eTickets.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets
@@ -20,11 +21,11 @@ namespace eTickets
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Services configuration
-            //services.AddScoped<IActorsService, ActorsService>();
-            //services.AddScoped<IProducersService, ProducersService>();
-            //services.AddScoped<ICinemasService, CinemasService>();
-            //services.AddScoped<IMoviesService, MoviesService>();
-            //services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<IActorsService, ActorsService>();
+            services.AddScoped<IProducersService, ProducersService>();
+            services.AddScoped<ICinemasService, CinemasService>();
+            services.AddScoped<IMoviesService, MoviesService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
